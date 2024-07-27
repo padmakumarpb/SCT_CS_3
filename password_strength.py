@@ -1,10 +1,31 @@
+import re
+
 def main():
     #Obtain the password from the user
     password = input("Enter the password :")
     check_password_strength(password)
 
 def check_password_strength(password):
-    if len(password) < 8:
-        print("The password lenth should be more than 8 !")
+    length_criteria = len(password) >= 8
+    upper_case_criteria = re.search(r'[A-Z]',password) is not None
+    lower_case_criteria = re.search(r'[a-z]',password) is not None
+    number_criteria = re.search(r'[0-9]',password) is not None
+    special_character_criteria = re.search(r'[!@#$%^&*(),.?":{}|<>]',password) is not None
+    
+    strength_of_password = 0
+    if length_criteria:
+        strength_of_password += 1
+    if upper_case_criteria:
+        strength_of_password += 1
+    if lower_case_criteria:
+        strength_of_password += 1
+    if number_criteria:
+        strength_of_password += 1
+    if special_character_criteria:
+        strength_of_password += 1
+    
+    strength_level = ["Very Weak", "Weak", "Moderate", "Strong", "Very Strong"]
+
+    print(f"Password strength: {strength_level[strength_of_password-1]}")
 
 main()
